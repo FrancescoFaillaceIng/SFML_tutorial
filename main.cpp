@@ -40,18 +40,56 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+        //clear screen
+        window.clear();
+
+        // get the global mouse position (relative to the desktop)
+        //sf::Vector2i globalPosition = sf::Mouse::getPosition();
+        //cout << globalPosition.x << " " << globalPosition.y << endl;
+
+        // get the local mouse position (relative to a window)
+        sf::Vector2i localPosition = sf::Mouse::getPosition(window); // window is a sf::Window
+        cout << localPosition.x << " " << localPosition.y << endl;
+
+        //up
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        {
+            cout << "the up key is pressed" << endl;
+            // set the mouse position locally (relative to a window)
+            sf::Mouse::setPosition(sf::Vector2i(750, 50), window); // window is a sf::Window
+        }
+        //down
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        {
+            cout << "the down key is pressed" << endl;
+            // set the mouse position locally (relative to a window)
+            sf::Mouse::setPosition(sf::Vector2i(750, 800), window); // window is a sf::Window
+        }
+        //right
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        {
+            cout << "the right key is pressed" << endl;
+            // set the mouse position locally (relative to a window)
+            sf::Mouse::setPosition(sf::Vector2i(1400, 400), window); // window is a sf::Window
+        }
+        //left
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        {
+            cout << "the left key is pressed" << endl;
+            // set the mouse position locally (relative to a window)
+            sf::Mouse::setPosition(sf::Vector2i(10, 400), window); // window is a sf::Window
+        }
+
+        //draw sprite
+        window.draw(spritetree);
+
+        //draw testo
+        window.draw(testo);
+
+        //update the window
+        window.display();
     }
-    //clear screen
-    window.clear();
 
-    //draw sprite
-    window.draw(spritetree);
-
-    //draw testo
-    window.draw(testo);
-
-    //update the window
-    window.display();
 
     return 0;
 }
