@@ -3,7 +3,7 @@ project(SFML_tutorial)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(SFML_tutorial main.cpp)
+add_executable(SFML_tutorial main.cpp Entity.cpp Entity.h Player.cpp Player.h)
 
 find_package(SFML 2 COMPONENTS network audio graphics window system REQUIRED)
 
