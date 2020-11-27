@@ -19,21 +19,25 @@ void Player::UpdateMovement() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
         rect.move(0, -movementSpeed);
         sprite.setTextureRect(sf::IntRect(counterWalking * 48, 64, 48, 64));
+        direction = 1;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
         rect.move(0, movementSpeed);
         sprite.setTextureRect(sf::IntRect(counterWalking * 48, 0, 48, 64));
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-        rect.move(movementSpeed, 0);
-        sprite.setTextureRect(sf::IntRect(counterWalking * 48, 64*3, 48, 64));
+        direction = 2;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
         rect.move(-movementSpeed, 0);
         sprite.setTextureRect(sf::IntRect(counterWalking * 48, 64*2, 48, 64));
+        direction = 3;
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+        rect.move(movementSpeed, 0);
+        sprite.setTextureRect(sf::IntRect(counterWalking * 48, 64*3, 48, 64));
+        direction = 4;
     }
 
     counterWalking++;

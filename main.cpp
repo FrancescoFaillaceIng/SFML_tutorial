@@ -4,12 +4,16 @@
 
 #include "Entity.h"
 #include "Player.h"
+#include "Projectile.h"
 
 
 using namespace std;
 
 int main()
 {
+    //variables
+    int counter;
+
     //create window
     sf::RenderWindow window(sf::VideoMode(1500, 850), "TEST RPG");
 
@@ -27,13 +31,21 @@ int main()
     spriteBackground.setTextureRect(sf::IntRect(0,0,1500,850));
     textureBackground.setRepeated(true);
 
-    //player
+    //player texture
     sf::Texture texturePlayer;
     if(!texturePlayer.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\rpg_sprite_walk.png)"))
         return EXIT_FAILURE;
 
+    //class Object
     class Player Player1;
     Player1.sprite.setTexture(texturePlayer);
+
+    //projectile vector array
+    vector<Projectile>::const_iterator iter;
+    vector<Projectile> projectileArray;
+
+    //projectile object
+    class Projectile Projectile1;
 
     //start game loop
     while (window.isOpen()) {
@@ -49,6 +61,21 @@ int main()
 
         //draw background
         window.draw(spriteBackground);
+
+        //fire projectiles (space bar)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+            Projectile1.rect.setPosition(Player1.rect.getPosition().x + Player1.rect.getSize().x/2 - Projectile1.rect.getSize().x/2, Player1.rect.getPosition().y + Player1.rect.getSize().y/2 - Projectile1.rect.getSize().y/2);
+            Projectile1.direction = Player1.direction;
+            projectileArray.push_back(Projectile1);
+        }
+
+        //draw projectiles
+        counter = 0;
+        for (iter = projectileArray.begin(); iter != projectileArray.end(); iter++) {
+            projectileArray[counter].Update(); //update projectile
+            window.draw(projectileArray[counter].rect);
+            counter++;
+        }
 
         //update player
         Player1.Update();
