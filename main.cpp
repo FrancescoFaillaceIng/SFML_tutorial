@@ -8,7 +8,7 @@ using namespace std;
 int main()
 {
     //variables
-    float PlayerMovementSpeed = 0.01;
+    float PlayerMovementSpeed = 2;
     int CounterWalking = 0;
 
     //create window
@@ -16,19 +16,23 @@ int main()
 
     //set icon
     sf::Image icon;
-    if(!icon.loadFromFile( R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\PallinaNatale.jpg)"))
+    if(!icon.loadFromFile( R"(C:\Users\franc\CLionProjects\SFML_tutorial\Resources\PallinaNatale.jpg)"))
         return EXIT_FAILURE;
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     //background
     sf::Texture texturetree;
-    if(!texturetree.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\AlberoNatale.jpg)"))
+    if(!texturetree.loadFromFile(R"(C:\Users\franc\CLionProjects\SFML_tutorial\Resources\TexDung.jpg)"))
         return EXIT_FAILURE;
+
     sf::Sprite spritetree (texturetree);
+
+    spritetree.setTextureRect(sf::IntRect(0,0,1500,850));
+    texturetree.setRepeated(true);
 
     //player
     sf::Texture textureplayer;
-    if(!textureplayer.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\rpg_sprite_walk.png)"))
+    if(!textureplayer.loadFromFile(R"(C:\Users\franc\CLionProjects\SFML_tutorial\Resources\rpg_sprite_walk.png)"))
         return EXIT_FAILURE;
     sf::Sprite spriteplayer (textureplayer);
     spriteplayer.setPosition(window.getSize().x/2, window.getSize().y/2);
@@ -36,7 +40,7 @@ int main()
 
     //testo
     sf::Font font;
-    if(!font.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\Christmas Bell - Personal Use.otf)"))
+    if(!font.loadFromFile(R"(C:\Users\franc\CLionProjects\SFML_tutorial\Resources\Christmas Bell - Personal Use.otf)"))
         return EXIT_FAILURE;
     sf::Text testo("quello che voi",font,50);
     testo.setFillColor(sf::Color::Black);
@@ -116,8 +120,9 @@ int main()
         if (CounterWalking == 7)
             CounterWalking = 0;
 
+
         //draw sprite
-        //window.draw(spritetree);
+        window.draw(spritetree);
 
         //draw testo
         //
