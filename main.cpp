@@ -7,24 +7,35 @@ using namespace std;
 
 int main()
 {
+    //variables
+    float PlayerMovementSpeed = 0.25;
+
     //create window
     sf::RenderWindow window(sf::VideoMode(1500, 850), "My window");
 
     //set icon
     sf::Image icon;
-    if(!icon.loadFromFile( R"(C:\Users\franc\CLionProjects\SFML_tutorial\Resources\PallinaNatale.jpg)"))
+    if(!icon.loadFromFile( R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\PallinaNatale.jpg)"))
         return EXIT_FAILURE;
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     //background
     sf::Texture texturetree;
-    if(!texturetree.loadFromFile(R"(C:\Users\franc\CLionProjects\SFML_tutorial\Resources\AlberoNatale.jpg)"))
+    if(!texturetree.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\AlberoNatale.jpg)"))
         return EXIT_FAILURE;
     sf::Sprite spritetree (texturetree);
 
+    //player
+    sf::Texture textureplayer;
+    if(!textureplayer.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\rpg_sprite_walk.png)"))
+        return EXIT_FAILURE;
+    sf::Sprite spriteplayer (textureplayer);
+    spriteplayer.setPosition(window.getSize().x/2, window.getSize().y/2);
+    spriteplayer.setTextureRect(sf::IntRect(24, 0, 24, 32));
+
     //testo
     sf::Font font;
-    if(!font.loadFromFile(R"(C:\Users\franc\CLionProjects\SFML_tutorial\Resources\Christmas Bell - Personal Use.otf)"))
+    if(!font.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\Christmas Bell - Personal Use.otf)"))
         return EXIT_FAILURE;
     sf::Text testo("quello che voi",font,50);
     testo.setFillColor(sf::Color::Black);
@@ -48,11 +59,11 @@ int main()
         //cout << globalPosition.x << " " << globalPosition.y << endl;
 
         // get the local mouse position (relative to a window)
-        sf::Vector2i localPosition = sf::Mouse::getPosition(window); // window is a sf::Window
-        cout << localPosition.x << " " << localPosition.y << endl;
+        /*sf::Vector2i localPosition = sf::Mouse::getPosition(window); // window is a sf::Window
+        cout << localPosition.x << " " << localPosition.y << endl; */
 
         //up
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        /*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
             cout << "the up key is pressed" << endl;
             // set the mouse position locally (relative to a window)
@@ -78,13 +89,33 @@ int main()
             cout << "the left key is pressed" << endl;
             // set the mouse position locally (relative to a window)
             sf::Mouse::setPosition(sf::Vector2i(10, 400), window); // window is a sf::Window
+        } */
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+            spriteplayer.move(0, -PlayerMovementSpeed);
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+            spriteplayer.move(0, PlayerMovementSpeed);
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+            spriteplayer.move(PlayerMovementSpeed, 0);
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+            spriteplayer.move(-PlayerMovementSpeed, 0);
         }
 
         //draw sprite
-        window.draw(spritetree);
+        //window.draw(spritetree);
 
         //draw testo
-        window.draw(testo);
+        //
+        // window.draw(testo);
+
+        //draw player
+        window.draw(spriteplayer);
 
         //update the window
         window.display();
