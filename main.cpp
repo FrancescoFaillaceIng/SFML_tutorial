@@ -8,7 +8,8 @@ using namespace std;
 int main()
 {
     //variables
-    float PlayerMovementSpeed = 0.25;
+    float PlayerMovementSpeed = 0.01;
+    int CounterWalking = 0;
 
     //create window
     sf::RenderWindow window(sf::VideoMode(1500, 850), "My window");
@@ -31,7 +32,7 @@ int main()
         return EXIT_FAILURE;
     sf::Sprite spriteplayer (textureplayer);
     spriteplayer.setPosition(window.getSize().x/2, window.getSize().y/2);
-    spriteplayer.setTextureRect(sf::IntRect(24, 0, 24, 32));
+    spriteplayer.setTextureRect(sf::IntRect(0, 0, 24, 32));
 
     //testo
     sf::Font font;
@@ -93,19 +94,27 @@ int main()
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
             spriteplayer.move(0, -PlayerMovementSpeed);
+            spriteplayer.setTextureRect(sf::IntRect(CounterWalking * 24, 32, 24, 32));
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
             spriteplayer.move(0, PlayerMovementSpeed);
+            spriteplayer.setTextureRect(sf::IntRect(CounterWalking * 24, 0, 24, 32));
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
             spriteplayer.move(PlayerMovementSpeed, 0);
+            spriteplayer.setTextureRect(sf::IntRect(CounterWalking * 24, 32*3, 24, 32));
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
             spriteplayer.move(-PlayerMovementSpeed, 0);
+            spriteplayer.setTextureRect(sf::IntRect(CounterWalking * 24, 32*2, 24, 32));
         }
+
+        CounterWalking++;
+        if (CounterWalking == 7)
+            CounterWalking = 0;
 
         //draw sprite
         //window.draw(spritetree);
