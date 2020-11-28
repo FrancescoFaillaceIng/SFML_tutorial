@@ -12,6 +12,9 @@ public:
     int movementSpeed = 10;
     int attackDamage = 5;
     int direction = 0; //1 - up, 2 - down, 3 - left, 4 - right
+    bool destroy = false;
+    int counterLifetime = 0;
+    int lifetime = 100;
 
     Projectile();
     void Update();

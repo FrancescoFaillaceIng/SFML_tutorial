@@ -11,11 +11,13 @@
 class Enemy: public Entity {
 public:
     float movementSpeed = 2;
-    int movementLength = 50;
+    int movementLength = 20;
     int attackDamage = 5;
     int counterWalking = 0;
     int direction = 0; //1 - up, 2 - down, 3 - left, 4 - right
     int counter = 0;
+    int hp = 15;
+    bool alive = true;
 
     Enemy();
     void Update();

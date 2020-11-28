@@ -7,7 +7,7 @@
 Projectile::Projectile() {
     rect.setSize(sf::Vector2f(10, 10));
     rect.setPosition(0, 0);
-    rect.setFillColor(sf::Color::Green);
+    sprite.setTextureRect(sf::IntRect(0,0,55,42));
 }
 
 void Projectile::Update() {
@@ -19,4 +19,15 @@ void Projectile::Update() {
         rect.move(-movementSpeed, 0);
     if (direction == 4) //right
         rect.move(movementSpeed, 0);
+
+    //lifetime
+    counterLifetime++;
+    if (counterLifetime >= lifetime)
+        destroy = true;
+
+    //sprite
+    sprite.setPosition(rect.getPosition());
+
+
+
 }
