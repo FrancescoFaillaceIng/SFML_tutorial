@@ -2,6 +2,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "Random.h"
 #include "Entity.h"
 #include "Player.h"
 #include "Projectile.h"
@@ -79,6 +80,12 @@ int main()
 
         //draw background
         window.draw(spriteBackground);
+
+        //spawn new enemies (y)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+            Enemy1.rect.setPosition(generateRandom(window.getSize().x), generateRandom(window.getSize().y));
+            enemyArray.push_back(Enemy1);
+        }
 
         //fire projectiles (space bar)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {

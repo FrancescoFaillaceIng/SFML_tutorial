@@ -16,25 +16,25 @@ void Enemy::Update() {
     sprite.setPosition(rect.getPosition());
 }
 
-void Enemy::UpdateMovement() {    //TODO sistemare la sprite del nemico e continuare il video dal minuto 12:30
+void Enemy::UpdateMovement() {
     if (direction == 1){ //up
         rect.move(0, -movementSpeed);
-        sprite.setTextureRect(sf::IntRect(counterWalking * 48, 64, 48, 64));
+        sprite.setTextureRect(sf::IntRect(counterWalking * 64.625, 0, 48, 64));
     }
 
     else if (direction == 2){ //down
         rect.move(0, movementSpeed);
-        sprite.setTextureRect(sf::IntRect(counterWalking * 48, 0, 48, 64));
+        sprite.setTextureRect(sf::IntRect(counterWalking * 64.625, 64*2, 48, 64));
     }
 
     else if (direction == 3){ //left
         rect.move(-movementSpeed, 0);
-        sprite.setTextureRect(sf::IntRect(counterWalking * 48, 64*2, 48, 64));
+        sprite.setTextureRect(sf::IntRect(counterWalking * 64.625, 64, 48, 64));
     }
 
     else if (direction == 4){ //right
         rect.move(movementSpeed, 0);
-        sprite.setTextureRect(sf::IntRect(counterWalking * 48, 64*3, 48, 64));
+        sprite.setTextureRect(sf::IntRect(counterWalking * 64.625, 64*3, 48, 64));
     }
 
     else {
