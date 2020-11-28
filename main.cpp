@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Projectile.h"
+#include "Enemy.h"
 
 
 using namespace std;
@@ -36,7 +37,12 @@ int main()
     if(!texturePlayer.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\rpg_sprite_walk.png)"))
         return EXIT_FAILURE;
 
-    //class Object
+    //enemy texture
+    sf::Texture textureEnemy;
+    if(!textureEnemy.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\skeletons.png)"))
+        return EXIT_FAILURE;
+
+    //player object
     class Player Player1;
     Player1.sprite.setTexture(texturePlayer);
 
@@ -46,6 +52,18 @@ int main()
 
     //projectile object
     class Projectile Projectile1;
+
+    //enemy vector array
+    vector<Enemy>::const_iterator iter4;
+    vector<Enemy> enemyArray;
+
+    //enemy object
+    class Enemy Enemy1;
+    Enemy1.sprite.setTexture(textureEnemy);
+    Enemy1.rect.setPosition(750-24, 425-32);
+    enemyArray.push_back(Enemy1);
+
+
 
     //start game loop
     while (window.isOpen()) {
@@ -74,6 +92,15 @@ int main()
         for (iter = projectileArray.begin(); iter != projectileArray.end(); iter++) {
             projectileArray[counter].Update(); //update projectile
             window.draw(projectileArray[counter].rect);
+            counter++;
+        }
+
+        //draw enemies
+        counter = 0;
+        for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++) {
+            enemyArray[counter].Update();
+            enemyArray[counter].UpdateMovement();
+            window.draw(enemyArray[counter].sprite);
             counter++;
         }
 
