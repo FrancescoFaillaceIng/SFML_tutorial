@@ -18,6 +18,7 @@ int main()
 
     //create window
     sf::RenderWindow window(sf::VideoMode(1500, 850), "TEST RPG");
+    window.setFramerateLimit(60);
 
     //set icon
     sf::Image icon;
