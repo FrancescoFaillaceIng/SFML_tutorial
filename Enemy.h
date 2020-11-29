@@ -12,7 +12,7 @@ class Enemy: public Entity {
 public:
     float movementSpeed = 2;
     int movementLength = 20;
-    int attackDamage = 5;
+    int attackDamage = 2;
     int counterWalking = 0;
     int direction = 0; //1 - up, 2 - down, 3 - left, 4 - right
     int counter = 0;

@@ -9,7 +9,7 @@
 
 class Projectile: public Entity {
 public:
-    int movementSpeed = 10;
+    int movementSpeed = 15;
     int attackDamage = 5;
     int direction = 0; //1 - up, 2 - down, 3 - left, 4 - right
     bool destroy = false;

@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Projectile.h"
 #include "Enemy.h"
+#include "TextDisplay.h"
 
 
 using namespace std;
@@ -17,6 +18,7 @@ int main()
     int counter;
     int counter2;
     sf::Clock clock;
+    sf::Clock clock2;
 
     //create window
     sf::RenderWindow window(sf::VideoMode(1500, 850), "TEST RPG");
@@ -24,31 +26,36 @@ int main()
 
     //set icon
     sf::Image icon;
-    if(!icon.loadFromFile( R"(C:\Users\franc\CLionProjects\SFML_tutorial\Resources\role-playing-game.png)"))
+    if(!icon.loadFromFile( R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\role-playing-game.png)"))
         return EXIT_FAILURE;
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
-    //background
+    //background texture
     sf::Texture textureBackground;
-    if(!textureBackground.loadFromFile(R"(C:\Users\franc\CLionProjects\SFML_tutorial\Resources\TexDung.png)"))
+    if(!textureBackground.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\TexDung.png)"))
         return EXIT_FAILURE;
     sf::Sprite spriteBackground (textureBackground);
     spriteBackground.setTextureRect(sf::IntRect(0,0,1500,850));
     textureBackground.setRepeated(true);
 
+    //text texture
+    sf::Font font;
+    if(!font.loadFromFile( R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\SuperLegendBoy-4w8Y.ttf)"))
+        return EXIT_FAILURE;
+
     //player texture
     sf::Texture texturePlayer;
-    if(!texturePlayer.loadFromFile(R"(C:\Users\franc\CLionProjects\SFML_tutorial\Resources\rpg_sprite_walk.png)"))
+    if(!texturePlayer.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\rpg_sprite_walk.png)"))
         return EXIT_FAILURE;
 
     //enemy texture
     sf::Texture textureEnemy;
-    if(!textureEnemy.loadFromFile(R"(C:\Users\franc\CLionProjects\SFML_tutorial\Resources\skeletons.png)"))
+    if(!textureEnemy.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\skeletons.png)"))
         return EXIT_FAILURE;
 
     //projectile texture
     sf::Texture textureProjectile;
-    if(!textureProjectile.loadFromFile(R"(C:\Users\franc\CLionProjects\SFML_tutorial\Resources\Projectiles_preview_rev_1.png)"))
+    if(!textureProjectile.loadFromFile(R"(C:\Users\erosp\Desktop\SFML_tutorial\Resources\Projectiles_preview_rev_1.png)"))
         return EXIT_FAILURE;
 
     //player object
@@ -70,9 +77,15 @@ int main()
     //enemy object
     class Enemy Enemy1;
     Enemy1.sprite.setTexture(textureEnemy);
-    Enemy1.rect.setPosition(750-24, 425-32);
     enemyArray.push_back(Enemy1);
 
+    //text vector array
+    vector<TextDisplay>::const_iterator iter8;
+    vector<TextDisplay> textDisplayArray;
+
+    //text object
+    class TextDisplay TextDisplay1;
+    TextDisplay1.text.setFont(font);
 
 
     //start game loop
@@ -90,8 +103,30 @@ int main()
         //draw background
         window.draw(spriteBackground);
 
+
         //clock
         sf::Time elapsed1 = clock.getElapsedTime();
+        sf::Time elapsed2 = clock2.getElapsedTime();
+
+        //enemy collision with player
+        if (elapsed2.asSeconds() >= 0.5) {
+            clock2.restart();
+            counter = 0;
+            for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++) {
+                if (Player1.rect.getGlobalBounds().intersects(enemyArray[counter].rect.getGlobalBounds())) {
+
+                    //text display
+                    TextDisplay1.text.setString(to_string(enemyArray[counter].attackDamage));
+                    TextDisplay1.text.setPosition(Player1.rect.getPosition().x + Player1.rect.getSize().x / 2,
+                                                  Player1.rect.getPosition().y - Player1.rect.getSize().y / 2);
+                    textDisplayArray.push_back(TextDisplay1);
+
+                    Player1.hp -= enemyArray[counter].attackDamage;
+                }
+                counter++;
+            }
+        }
+        cout << Player1.hp << endl;
 
         //projectiles collisions
         counter = 0;
@@ -100,6 +135,12 @@ int main()
             for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++) {
                 if (projectileArray[counter].rect.getGlobalBounds().intersects(enemyArray[counter2].rect.getGlobalBounds())){
                     projectileArray[counter].destroy = true;
+
+                    //text display
+                    TextDisplay1.text.setString(to_string(projectileArray[counter].attackDamage));
+                    TextDisplay1.text.setPosition(enemyArray[counter2].rect.getPosition().x + enemyArray[counter2].rect.getSize().x / 2,enemyArray[counter2].rect.getPosition().y - enemyArray[counter2].rect.getSize().y / 2);
+                    textDisplayArray.push_back(TextDisplay1);
+
                     enemyArray[counter2].hp -= projectileArray[counter].attackDamage;
                     if (enemyArray[counter2].hp <= 0)
                         enemyArray[counter2].alive = false;
@@ -124,6 +165,16 @@ int main()
         for (iter = projectileArray.begin(); iter != projectileArray.end(); iter++) {
             if (projectileArray[counter].destroy) {
                 projectileArray.erase(iter);
+                break;
+            }
+            counter++;
+        }
+
+        //delete text
+        counter = 0;
+        for (iter8 = textDisplayArray.begin(); iter8 != textDisplayArray.end(); iter8++) {
+            if (textDisplayArray[counter].destroy) {
+                textDisplayArray.erase(iter8);
                 break;
             }
             counter++;
@@ -169,6 +220,14 @@ int main()
 
         //draw player
         window.draw(Player1.sprite);
+
+        //draw text
+        counter = 0;
+        for (iter8 = textDisplayArray.begin(); iter8 != textDisplayArray.end(); iter8++) {
+            textDisplayArray[counter].Update();
+            window.draw(textDisplayArray[counter].text);
+            counter++;
+        }
 
         //update the window
         window.display();

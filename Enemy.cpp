@@ -7,7 +7,7 @@
 
 Enemy::Enemy() {
     rect.setSize(sf::Vector2f(48, 64));
-    rect.setPosition(750-24, 425-32);
+    rect.setPosition(75, 42);
     rect.setFillColor(sf::Color::Blue);
     sprite.setTextureRect(sf::IntRect(0, 63.5*2, 64.625, 63.5));
 }
