@@ -27,7 +27,4 @@ void Projectile::Update() {
 
     //sprite
     sprite.setPosition(rect.getPosition());
-
-
-
 }

@@ -8,6 +8,7 @@
 #include "Projectile.h"
 #include "Enemy.h"
 #include "TextDisplay.h"
+#include "MeleeWeapon.h"
 
 
 using namespace std;
@@ -19,6 +20,7 @@ int main()
     int counter2;
     sf::Clock clock;
     sf::Clock clock2;
+    sf::Clock clock3;
 
     //create window
     sf::RenderWindow window(sf::VideoMode(1500, 850), "TEST RPG");
@@ -61,6 +63,10 @@ int main()
     //player object
     class Player Player1;
     Player1.sprite.setTexture(texturePlayer);
+
+    //melee weapon object
+    class MeleeWeapon MeleeWeapon1;
+    //Player1.sprite.setTexture(texturePlayer);
 
     //projectile vector array
     vector<Projectile>::const_iterator iter;
@@ -107,6 +113,7 @@ int main()
         //clock
         sf::Time elapsed1 = clock.getElapsedTime();
         sf::Time elapsed2 = clock2.getElapsedTime();
+        sf::Time elapsed3 = clock3.getElapsedTime();
 
         //enemy collision with player
         if (elapsed2.asSeconds() >= 0.5) {
@@ -117,8 +124,7 @@ int main()
 
                     //text display
                     TextDisplay1.text.setString(to_string(enemyArray[counter].attackDamage));
-                    TextDisplay1.text.setPosition(Player1.rect.getPosition().x + Player1.rect.getSize().x / 2,
-                                                  Player1.rect.getPosition().y - Player1.rect.getSize().y / 2);
+                    TextDisplay1.text.setPosition(Player1.rect.getPosition().x + Player1.rect.getSize().x / 2,Player1.rect.getPosition().y - Player1.rect.getSize().y / 2);
                     textDisplayArray.push_back(TextDisplay1);
 
                     Player1.hp -= enemyArray[counter].attackDamage;
@@ -148,6 +154,30 @@ int main()
                 counter2++;
             }
             counter++;
+        }
+
+        if (elapsed1.asSeconds() >= 0.4) {
+            clock.restart();
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+                //enemy collision with melee weapon
+                counter = 0;
+                for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++) {
+                    if (MeleeWeapon1.rect.getGlobalBounds().intersects(enemyArray[counter].rect.getGlobalBounds())) {
+
+                        //text display
+                        TextDisplay1.text.setString(to_string(MeleeWeapon1.attackDamage));
+                        TextDisplay1.text.setPosition(
+                                enemyArray[counter].rect.getPosition().x + enemyArray[counter].rect.getSize().x / 2,
+                                enemyArray[counter].rect.getPosition().y - enemyArray[counter].rect.getSize().y / 2);
+                        textDisplayArray.push_back(TextDisplay1);
+
+                        enemyArray[counter].hp -= MeleeWeapon1.attackDamage;
+                        if (enemyArray[counter].hp <= 0)
+                            enemyArray[counter].alive = false;
+                    }
+                    counter++;
+                }
+            }
         }
 
         //delete dead enemy
@@ -188,7 +218,7 @@ int main()
         }
 
         //fire projectiles (left click)
-        if (elapsed1.asSeconds() >= 0.1) {
+        if (elapsed1.asSeconds() >= 0.5) {
             clock.restart();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 Projectile1.rect.setPosition(Player1.rect.getPosition().x + Player1.rect.getSize().x/2 - Projectile1.rect.getSize().x/2, Player1.rect.getPosition().y + Player1.rect.getSize().y/2 - Projectile1.rect.getSize().y/2);
@@ -215,11 +245,20 @@ int main()
         }
 
         //update player
+        MeleeWeapon1.Update();
+        MeleeWeapon1.UpdateMovement();
+
+        //draw melee weapon
+        window.draw(MeleeWeapon1.rect);
+
+        //update player
         Player1.Update();
         Player1.UpdateMovement();
 
         //draw player
         window.draw(Player1.sprite);
+
+
 
         //draw text
         counter = 0;
